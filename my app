@@ -1,1 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>スマホ風ガチャゲーム</title>
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
 
+.container {
+    background: white;
+    width: 360px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+h1 {
+    margin: 0 0 10px 0;
+}
+
+.result {
+    margin: 15px 0;
+    min-height: 120px;
+}
+
+.card {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    animation: fadeIn 0.5s ease;
+}
+
+.N { background: gray; }
+.R { background: dodgerblue; }
+.SR { background: purple; }
+.SSR { 
+    background: gold; 
+    color: black;
+    box-shadow: 0 0 10px gold;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.single { background: #ff7eb3; color: white; }
+.ten { background: #ff758c; color: white; }
+
+button:hover {
+    opacity: 0.8;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>✨ ドリームガチャ ✨</h1>
+    <div class="result" id="result">ボタンを押してガチャを引こう！</div>
+    <button class="single" onclick="drawGacha(1)">1回引く</button>
+    <button class="ten" onclick="drawGacha(10)">10連ガチャ</button>
+</div>
+
+<script>
+const characters = [
+    { name: "スライム", rarity: "N", rate: 50 },
+    { name: "剣士", rarity: "R", rate: 30 },
+    { name: "魔法使い", rarity: "SR", rate: 15 },
+    { name: "伝説の勇者", rarity: "SSR", rate: 5 }
+];
+
+function getRandomCharacter() {
+    const rand = Math.random() * 100;
+    let sum = 0;
+    for (let char of characters) {
+        sum += char.rate;
+        if (rand <= sum) {
+            return char;
+        }
+    }
+}
+
+function drawGacha(times) {
+    const resultDiv = document.getElementById("result");
+    resultDiv.innerHTML = "";
+
+    for (let i = 0; i < times; i++) {
+        const char = getRandomCharacter();
+        const card = document.createElement("div");
+        card.className = "card " + char.rarity;
+        card.textContent = char.rarity + " - " + char.name;
+        resultDiv.appendChild(card);
+    }
+}
+</script>
+</body>
+</html>
